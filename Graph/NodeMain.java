@@ -15,11 +15,13 @@ public class NodeMain {
 
 	public static void main(String[] args) {
 
-		int xMax = 300;					//width of the plane
-		int yMax = 300;					//length of the plane
-		int numNodes = 4;				//number of nodes			Test:8
-		long seedx = 12;					//seed for x-coordinate		Test: 1
+		int xMax = 500;					//width of the plane
+		int yMax = 500;					//length of the plane
+		int numNodes = 5;				//number of nodes			Test:8
+		long seedx = 12;				//seed for x-coordinate		Test: 1
 		long seedy = 420;				//seed for y-coordinate		Test: 420
+		int sourceNode = 0;				//Routing: source
+		int destinationNode = 3;		//Routing: destination
 		
 		//method for creating randomly distributed nodes
 		createNodes(numNodes, yMax, xMax, seedx, seedy);
@@ -46,9 +48,9 @@ public class NodeMain {
 		edgevis.displayImage(planImage);
 
 		//Greedy Routing
-		GreedyRouting blubb = new GreedyRouting();
-		blubb.setParams(allNodes, adjacencyMatrix, xMax, yMax, numNodes);
-		ArrayList<Node> greedyRoute = blubb.doGreedyRouting();
+		GreedyRouting greedy = new GreedyRouting();
+		greedy.setParams(allNodes, adjacencyMatrix, sourceNode, destinationNode, numNodes);
+		ArrayList<Node> greedyRoute = greedy.doGreedyRouting();
 		
 	}
 	

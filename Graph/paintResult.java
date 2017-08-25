@@ -9,7 +9,6 @@ import javax.swing.*;
 
 public class paintResult extends JFrame {
 
-	//private MyCanvas canvas = new MyCanvas();
 	private static int xMax;
 	private static int yMax;
 	private static int numNodes;
