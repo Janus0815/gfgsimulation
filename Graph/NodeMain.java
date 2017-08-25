@@ -15,8 +15,8 @@ public class NodeMain {
 
 		int xMax = 300;					//width of the plane
 		int yMax = 300;					//length of the plane
-		int numNodes = 5;				//number of nodes			Test:8
-		long seedx = 110;					//seed for x-coordinate		Test: 1
+		int numNodes = 8;				//number of nodes			Test:8
+		long seedx = 1;					//seed for x-coordinate		Test: 1
 		long seedy = 420;				//seed for y-coordinate		Test: 420
 		
 		//method for creating randomly distributed nodes
@@ -176,7 +176,7 @@ public class NodeMain {
 									System.out.println("Schnitt");
 									if (removeEdge(firstEdgeRow, firstEdgeColumn, secondEdgeRow, secondEdgeColumn)) 
 											removedEdge = true;
-									System.out.println("RemoveEdge: " + firstEdgeRow + "," + firstEdgeColumn + "-" + secondEdgeRow + "," +  secondEdgeColumn );
+									System.out.println("Prüfe, ob entfernbar: " + firstEdgeRow + "," + firstEdgeColumn + "-" + secondEdgeRow + "," +  secondEdgeColumn );
 								}
 								} //if doesIntersect
 							}
@@ -257,7 +257,7 @@ public class NodeMain {
 				 
 		 }
 		else { 
-			if (d1 == 0 && d1_OnSegment) { 
+			/*if (d1 == 0 && d1_OnSegment) { 
 				return true;
 			}
 			else {
@@ -274,7 +274,7 @@ public class NodeMain {
 						}
 					}
 				}
-			}
+			}*/
 			return false;
 		}
 	}
@@ -282,10 +282,15 @@ public class NodeMain {
 	//remove not needed connections from connection matrix
 	public static boolean removeEdge (int firstEdgeEndpointA, int firstEdgeEndpointB, int secondEdgeEndpointC, int secondEdgeEndpointD) {
 		//testing whether edge AB could be removed (if A and B have both a connection to C or D)		
-		if (((adjacencyMatrix.get(firstEdgeEndpointA, secondEdgeEndpointC)) || (adjacencyMatrix.get(firstEdgeEndpointA, secondEdgeEndpointD))) &&
-			((adjacencyMatrix.get(firstEdgeEndpointB, secondEdgeEndpointC)) || (adjacencyMatrix.get(firstEdgeEndpointB, secondEdgeEndpointD)))) { 
+		if ((((adjacencyMatrix.get(firstEdgeEndpointA, secondEdgeEndpointC)) || (adjacencyMatrix.get(firstEdgeEndpointA, secondEdgeEndpointD))) || 
+			 (adjacencyMatrix.get(secondEdgeEndpointC, firstEdgeEndpointA)) || (adjacencyMatrix.get(secondEdgeEndpointD, firstEdgeEndpointA)))
+				&&
+			(((adjacencyMatrix.get(firstEdgeEndpointB, secondEdgeEndpointC)) || (adjacencyMatrix.get(firstEdgeEndpointB, secondEdgeEndpointD)))) ||
+			  (adjacencyMatrix.get(secondEdgeEndpointC, firstEdgeEndpointB)) || (adjacencyMatrix.get(secondEdgeEndpointD, firstEdgeEndpointB)))
+			{ 
 			adjacencyMatrix.put(firstEdgeEndpointA, firstEdgeEndpointB, false);
 			adjacencyMatrix.put(firstEdgeEndpointB, firstEdgeEndpointA, false);
+			System.out.println("Entfernte Kante: " + firstEdgeEndpointA + "," + firstEdgeEndpointB );
 			return true;
 		}
 		else return false;
