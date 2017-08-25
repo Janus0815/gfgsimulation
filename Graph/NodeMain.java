@@ -1,5 +1,6 @@
 package Graph;
 
+import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -9,8 +10,9 @@ public class NodeMain {
 	
 	//Adjacency matrix to store connections
 	private static Matrix adjacencyMatrix = new Matrix();
-	
-	
+
+	//private static fxVisual blub = new fxVisual();
+
 	public static void main(String[] args) {
 
 		int xMax = 300;					//width of the plane
@@ -26,18 +28,22 @@ public class NodeMain {
 		createEdges(numNodes);
 		System.out.println("Originalgraph:");
 		showTextResult(numNodes);
-		Matrix adjacencyMatrix_beforePlan = new Matrix();
-		adjacencyMatrix_beforePlan=adjacencyMatrix;
+
 		paintResult edgevis = new paintResult();
-		edgevis.setGraphParams(allNodes, adjacencyMatrix_beforePlan, xMax, yMax, numNodes);
-		
-		
-		//method for creating the partially planar subgraph
+		edgevis.setGraphParams(allNodes, adjacencyMatrix, xMax, yMax, numNodes);
+	    BufferedImage edgeImage = edgevis.createImageOfNetwork();
+	    //consider saving the image here?
+	    edgevis.displayImage(edgeImage);
+
+	    //method for creating the partially planar subgraph
 		doPlanarization(numNodes);
 		System.out.println("Teilplanarisiert:");
 		showTextResult(numNodes);
-		//paintResult planvis = new paintResult();
-		//planvis.setGraphParams(allNodes, adjacencyMatrix, xMax, yMax, numNodes);
+		paintResult planvis = new paintResult();
+		planvis.setGraphParams(allNodes, adjacencyMatrix, xMax, yMax, numNodes);
+		BufferedImage planImage = edgevis.createImageOfNetwork();
+		//consider saving the image here?
+		edgevis.displayImage(planImage);
 		
 		
 	}
@@ -312,4 +318,5 @@ public class NodeMain {
 			System.out.println("");
 		} 
 	}
+
 }
