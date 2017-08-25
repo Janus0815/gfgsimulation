@@ -15,8 +15,8 @@ public class NodeMain {
 
 		int xMax = 300;					//width of the plane
 		int yMax = 300;					//length of the plane
-		int numNodes = 8;				//number of nodes			Test:8
-		long seedx = 1;					//seed for x-coordinate		Test: 1
+		int numNodes = 4;				//number of nodes			Test:8
+		long seedx = 12;					//seed for x-coordinate		Test: 1
 		long seedy = 420;				//seed for y-coordinate		Test: 420
 		
 		//method for creating randomly distributed nodes
@@ -173,11 +173,10 @@ public class NodeMain {
 								System.out.println("Vergleichskante: " +(secondEdgeRow)+ ", "+ (secondEdgeColumn));
 								if (doesIntersect(allNodes.get(firstEdgeRow), allNodes.get(firstEdgeColumn), 
 										  		  allNodes.get(secondEdgeRow), allNodes.get(secondEdgeColumn))) {
-									System.out.println("Schnitt");
+									System.out.println("Prüfe, ob entfernbar: " + firstEdgeRow + "," + firstEdgeColumn + "-" + secondEdgeRow + "," +  secondEdgeColumn );
 									if (removeEdge(firstEdgeRow, firstEdgeColumn, secondEdgeRow, secondEdgeColumn)) 
 											removedEdge = true;
-									System.out.println("Prüfe, ob entfernbar: " + firstEdgeRow + "," + firstEdgeColumn + "-" + secondEdgeRow + "," +  secondEdgeColumn );
-								}
+																	}
 								} //if doesIntersect
 							}
 							secondEdgeColumn++;
