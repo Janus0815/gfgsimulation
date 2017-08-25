@@ -44,7 +44,11 @@ public class NodeMain {
 		BufferedImage planImage = edgevis.createImageOfNetwork();
 		//consider saving the image here?
 		edgevis.displayImage(planImage);
-		
+
+		//Greedy Routing
+		GreedyRouting blubb = new GreedyRouting();
+		blubb.setParams(allNodes, adjacencyMatrix, xMax, yMax, numNodes);
+		ArrayList<Node> greedyRoute = blubb.doGreedyRouting();
 		
 	}
 	
