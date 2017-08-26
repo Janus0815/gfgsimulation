@@ -50,7 +50,6 @@ public class NodeMain {
 		//Greedy Routing
 		GreedyRouting greedy = new GreedyRouting();
 		greedy.setParams(allNodes, adjacencyMatrix, sourceNode, destinationNode, numNodes);
-		greedy.doGreedyRouting();
 		ArrayList<Node> greedyRoute = greedy.doGreedyRouting();
 		
 	}
