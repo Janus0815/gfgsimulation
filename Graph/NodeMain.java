@@ -21,7 +21,7 @@ public class NodeMain {
 		long seedx = 12;				//seed for x-coordinate		Test: 1
 		long seedy = 420;				//seed for y-coordinate		Test: 420
 		int sourceNode = 0;				//Routing: source
-		int destinationNode = 3;		//Routing: destination
+		int destinationNode = 7;		//Routing: destination
 		
 		//method for creating randomly distributed nodes
 		createNodes(numNodes, yMax, xMax, seedx, seedy);
@@ -50,6 +50,7 @@ public class NodeMain {
 		//Greedy Routing
 		GreedyRouting greedy = new GreedyRouting();
 		greedy.setParams(allNodes, adjacencyMatrix, sourceNode, destinationNode, numNodes);
+		greedy.doGreedyRouting();
 		ArrayList<Node> greedyRoute = greedy.doGreedyRouting();
 		
 	}
