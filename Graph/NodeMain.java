@@ -2,6 +2,7 @@ package Graph;
 
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 public class NodeMain {
@@ -50,7 +51,8 @@ public class NodeMain {
 		//Greedy Routing
 		GreedyRouting greedy = new GreedyRouting();
 		greedy.setParams(allNodes, adjacencyMatrix, sourceNode, destinationNode, numNodes);
-		ArrayList<Node> greedyRoute = greedy.doGreedyRouting();
+		List<Integer> greedyRoute = greedy.doGreedyRouting();
+		for (int i = 0 ; i < greedyRoute.size() ; i++) System.out.println(greedyRoute.get(i));
 		
 	}
 	
