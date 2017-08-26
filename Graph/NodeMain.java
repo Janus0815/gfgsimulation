@@ -17,11 +17,11 @@ public class NodeMain {
 
 		int xMax = 500;					//width of the plane
 		int yMax = 500;					//length of the plane
-		int numNodes = 8;				//number of nodes			Test:8
+		int numNodes = 4;				//number of nodes			Test:8
 		long seedx = 12;				//seed for x-coordinate		Test: 1
 		long seedy = 420;				//seed for y-coordinate		Test: 420
 		int sourceNode = 0;				//Routing: source
-		int destinationNode = 7;		//Routing: destination
+		int destinationNode = 3;		//Routing: destination
 		
 		//method for creating randomly distributed nodes
 		createNodes(numNodes, yMax, xMax, seedx, seedy);

@@ -29,41 +29,59 @@ public class GreedyRouting {
     	boolean destinationFound = false;
     	boolean stuck = false;
     	int potentialNeighbour = 0; 				//considered column in the row of the actualNode
-    	int candidate = actualNode;				//candidate for the next hop
+    	int candidate = actualNode;					//candidate for the next hop
     	
-    	while(!destinationFound || !stuck) {
+    	while(!destinationFound && !stuck) {		
             System.out.println("Routing");
-	    	while(potentialNeighbour < numNodes && !destinationFound) {
+            System.out.println("Aktueller Knoten: " + actualNode); 
+            boolean nextHopFound = false;
+	    	while(potentialNeighbour < numNodes && !destinationFound && !nextHopFound) {	    		
+	    		if(potentialNeighbour == actualNode) {
+	    			System.out.println("Betrachteter Nachbar gleich aktueller Knoten");
+	    			potentialNeighbour++;
+	    			System.out.println("Nächster betrachteter Nachbar: " +potentialNeighbour);
+	    		}
 
 	    		if (potentialNeighbour == destination) {
+	    			System.out.println("Erreiche Knoten: " +potentialNeighbour); 		
+		    		nodeRoute.add(allNodes.get(potentialNeighbour));
 	    			System.out.println("Ziel erreicht");
-	    			destinationFound = true;
+	    			destinationFound = true;	    			
 	    			return nodeRoute;
 	    		}
 	    		if (potentialNeighbour != actualNode && adjacencyMatrixRoute.get(actualNode, potentialNeighbour)) {
 	    			double potentialBestDistance = Math.sqrt(Math.pow((allNodes.get(destination).getX() - allNodes.get(potentialNeighbour).getX()),2) + 
 							  Math.pow((allNodes.get(destination).getY() - allNodes.get(potentialNeighbour).getY()),2));
 	    			if(potentialBestDistance < actualBestDistance) {
+	    				actualBestDistance = potentialBestDistance;
 	    				candidate = potentialNeighbour;
-	    				System.out.println("Candidate");
+	    				System.out.println("Kandidat:" +candidate);
 	    				potentialNeighbour++;
 	    			}
 	    			else {
 	    				potentialNeighbour++;
 	    				System.out.println("Next neighbour");
+	    				if (potentialNeighbour == numNodes) {
+	    	    			nextHopFound = true;
+	    				}
 	    			}
-	    		} else System.out.println("Hei gehts net weiter");
-	    			    		
+	    		} 
+	    		else {
+	    			potentialNeighbour++;
+	    		}
+	    		if (potentialNeighbour == numNodes) {
+	    			nextHopFound = true;
+	    		}
 	    	}//innere while
 	    	if (actualNode == candidate) {
-	    		System.out.println("Lokales Minimum erreiche");
+	    		System.out.println("Lokales Minimum erreicht");
 	    		stuck = true;
 	    	}
 	    	else {
 	    		actualNode = candidate;
-	    		System.out.println(actualNode); 		//Node Array List Zeugs
+	    		System.out.println("Nächster Knoten: "+ actualNode); 		
 	    		nodeRoute.add(allNodes.get(actualNode));
-	    	}
+	    			    	}
     	}//äußere while
     	
 

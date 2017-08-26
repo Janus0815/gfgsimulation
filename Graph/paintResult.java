@@ -44,9 +44,9 @@ public class paintResult extends JFrame {
 	private void paintNetWork(BufferedImage image) {
 
 		Graphics2D g = (Graphics2D) image.getGraphics();
-		g.setColor(Color.red);
-
+		
 		//Knoten
+		g.setColor(Color.red);
 		for (int x = 0; x < allNodes.size(); x++) {
 			g.drawOval(allNodes.get(x).getX() - 3 + 10, (yMax - allNodes.get(x).getY() - 3), 6, 6);
 			g.fillOval(allNodes.get(x).getX() - 3 + 10, (yMax - allNodes.get(x).getY() - 3), 6, 6);
