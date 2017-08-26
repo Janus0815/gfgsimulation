@@ -58,6 +58,7 @@ public class GreedyRouting {
 	    	else {
 	    		actualNode = candidate;
 	    		System.out.println(actualNode); 		//Node Array List Zeugs
+	  //  		nodeRoute.add(allNodes(actualNode));
 	    	}
     	}//‰uﬂere while
     	
