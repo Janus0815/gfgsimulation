@@ -18,11 +18,11 @@ public class NodeMain {
 
 		int xMax = 500;					//width of the plane
 		int yMax = 500;					//length of the plane
-		int numNodes = 4;				//number of nodes			Test:8
+		int numNodes = 20;				//number of nodes			Test:8
 		long seedx = 12;				//seed for x-coordinate		Test: 1
 		long seedy = 420;				//seed for y-coordinate		Test: 420
 		int sourceNode = 0;				//Routing: source
-		int destinationNode = 3;		//Routing: destination
+		int destinationNode = 7;		//Routing: destination
 		
 		//method for creating randomly distributed nodes
 		createNodes(numNodes, yMax, xMax, seedx, seedy);
@@ -52,8 +52,14 @@ public class NodeMain {
 		GreedyRouting greedy = new GreedyRouting();
 		greedy.setParams(allNodes, adjacencyMatrix, sourceNode, destinationNode, numNodes);
 		List<Integer> greedyRoute = greedy.doGreedyRouting();
-		for (int i = 0 ; i < greedyRoute.size() ; i++) System.out.println(greedyRoute.get(i));
-		
+		for (int i = 0 ; i < greedyRoute.size() ; i++) System.out.println("Route: " + greedyRoute.get(i));
+
+		paintResult routevis = new paintResult();
+		routevis.setGraphParams(allNodes, adjacencyMatrix, xMax, yMax, numNodes);
+		routevis.setRoute(greedyRoute);
+		BufferedImage routeImage = routevis.createImageWithRoute();
+
+		edgevis.displayImage(routeImage);
 	}
 	
 	
