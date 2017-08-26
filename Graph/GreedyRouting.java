@@ -49,7 +49,7 @@ public class GreedyRouting {
 	    			destinationFound = true;	    			
 	    			return nodeRoute;
 	    		}
-	    		if (potentialNeighbour != actualNode && adjacencyMatrixRoute.get(actualNode, potentialNeighbour)) {
+	    		if (adjacencyMatrixRoute.get(actualNode, potentialNeighbour)) {
 	    			double potentialBestDistance = Math.sqrt(Math.pow((allNodes.get(destination).getX() - allNodes.get(potentialNeighbour).getX()),2) + 
 							  Math.pow((allNodes.get(destination).getY() - allNodes.get(potentialNeighbour).getY()),2));
 	    			if(potentialBestDistance < actualBestDistance) {
