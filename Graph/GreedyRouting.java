@@ -1,6 +1,8 @@
 package Graph;
 
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 public class GreedyRouting {
 
@@ -19,11 +21,12 @@ public class GreedyRouting {
         this.numNodes = numberNodes;
     }
 
-    public ArrayList<Node> doGreedyRouting() {
+    public List<Integer> doGreedyRouting() {
     	//do Routing
         System.out.println("Routing");
-        ArrayList<Node> nodeRoute = allNodes;
+        List<Integer> nodeRoute = new ArrayList<>();
     	int actualNode = source; 				//actual considered node
+        nodeRoute.add(source);
     	double actualBestDistance = Math.sqrt(Math.pow((allNodes.get(destination).getX() - allNodes.get(source).getX()),2) + 
     										  Math.pow((allNodes.get(destination).getY() - allNodes.get(source).getY()),2));
     	boolean destinationFound = false;
@@ -33,10 +36,11 @@ public class GreedyRouting {
     	
     	while(!destinationFound && !stuck) {		
             System.out.println("Routing");
-            System.out.println("Aktueller Knoten: " + actualNode); 
+            System.out.println("Aktueller Knoten: " + actualNode);
             boolean nextHopFound = false;
-	    	while(potentialNeighbour < numNodes && !destinationFound && !nextHopFound) {	    		
-	    		if(potentialNeighbour == actualNode) {
+	    	while(potentialNeighbour < numNodes || !destinationFound || !nextHopFound) {
+                System.out.println("Aktueller Nachbar: " + potentialNeighbour);
+                if(potentialNeighbour == actualNode) {
 	    			System.out.println("Betrachteter Nachbar gleich aktueller Knoten");
 	    			potentialNeighbour++;
 	    			System.out.println("Nächster betrachteter Nachbar: " +potentialNeighbour);
@@ -44,7 +48,7 @@ public class GreedyRouting {
 
 	    		if (potentialNeighbour == destination) {
 	    			System.out.println("Erreiche Knoten: " +potentialNeighbour); 		
-		    		nodeRoute.add(allNodes.get(potentialNeighbour));
+		    		nodeRoute.add(potentialNeighbour);
 	    			System.out.println("Ziel erreicht");
 	    			destinationFound = true;	    			
 	    			return nodeRoute;
@@ -60,8 +64,8 @@ public class GreedyRouting {
 	    			}
 	    			else {
 	    				potentialNeighbour++;
-	    				System.out.println("Next neighbour");
-	    				if (potentialNeighbour == numNodes) {
+	    				System.out.println("Next Hop");
+	    				if (potentialNeighbour == numNodes -1) {
 	    	    			nextHopFound = true;
 	    				}
 	    			}
@@ -69,19 +73,21 @@ public class GreedyRouting {
 	    		else {
 	    			potentialNeighbour++;
 	    		}
-	    		if (potentialNeighbour == numNodes) {
+	    		if (potentialNeighbour == numNodes-1) {
+                    nodeRoute.add(candidate);
 	    			nextHopFound = true;
 	    		}
-	    	}//innere while
+
 	    	if (actualNode == candidate) {
 	    		System.out.println("Lokales Minimum erreicht");
 	    		stuck = true;
 	    	}
 	    	else {
-	    		actualNode = candidate;
+            	actualNode = candidate;
 	    		System.out.println("Nächster Knoten: "+ actualNode); 		
-	    		nodeRoute.add(allNodes.get(actualNode));
-	    			    	}
+
+            }
+            }//innere while
     	}//äußere while
     	
 
