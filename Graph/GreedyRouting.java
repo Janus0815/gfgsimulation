@@ -58,17 +58,19 @@ public class GreedyRouting {
         int candidate=-1;
         boolean stop = false;
 
-        while (potentialNeighbour < numNodes - 1 || stop) {
+        while (potentialNeighbour < numNodes ) {
             potentialBestDistance=9999999;
             if (potentialNeighbour!=actualNode) {
                 if (adjacencyMatrixRoute.get(actualNode, potentialNeighbour)) {
                     potentialBestDistance = calcDistance(destination, potentialNeighbour);
+                    System.out.println("guckst du: " + potentialNeighbour);
                     if (potentialNeighbour == destination) {
+                        System.out.println("Beim Ziel: " + potentialNeighbour);
                         candidate=potentialNeighbour;
                         stop = true;
                     }
                 }
-                if (potentialBestDistance < actualBestDistance && !stop) {
+                if (potentialBestDistance <= actualBestDistance && stop != true) {
                     actualBestDistance = potentialBestDistance;
                     candidate = potentialNeighbour;
                     System.out.println("Bester Kandidat:" + candidate);
@@ -76,9 +78,6 @@ public class GreedyRouting {
                 } else {
                     System.out.println("Distance larger, PBD:" + potentialBestDistance + " ABD: " + actualBestDistance);
                     potentialNeighbour ++;
-                    if (potentialNeighbour == numNodes -1) {
-                     if (potentialBestDistance!=9999999) candidate = potentialNeighbour;
-                    }
                 }
             } else potentialNeighbour++;
 
