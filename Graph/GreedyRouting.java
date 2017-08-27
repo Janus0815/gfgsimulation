@@ -56,13 +56,19 @@ public class GreedyRouting {
         double actualBestDistance = calcDistance(destination, actualNode);
         double potentialBestDistance = 9999999;
         int candidate=-1;
+        boolean stop = false;
 
         while (potentialNeighbour < numNodes - 1) {
+            potentialBestDistance=9999999;
             if (potentialNeighbour!=actualNode) {
                 if (adjacencyMatrixRoute.get(actualNode, potentialNeighbour)) {
                     potentialBestDistance = calcDistance(destination, potentialNeighbour);
+                    if (potentialNeighbour == destination) {
+                        candidate=potentialNeighbour;
+                        stop = true;
+                    }
                 }
-                if (potentialBestDistance < actualBestDistance) {
+                if (potentialBestDistance < actualBestDistance && !stop) {
                     actualBestDistance = potentialBestDistance;
                     candidate = potentialNeighbour;
                     System.out.println("Bester Kandidat:" + candidate);
