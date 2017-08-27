@@ -58,7 +58,7 @@ public class GreedyRouting {
         int candidate=-1;
         boolean stop = false;
 
-        while (potentialNeighbour < numNodes - 1) {
+        while (potentialNeighbour < numNodes - 1 || stop) {
             potentialBestDistance=9999999;
             if (potentialNeighbour!=actualNode) {
                 if (adjacencyMatrixRoute.get(actualNode, potentialNeighbour)) {
