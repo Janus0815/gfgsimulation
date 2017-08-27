@@ -2,7 +2,7 @@ package Graph;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
+
 
 public class GreedyRouting {
 
@@ -27,72 +27,56 @@ public class GreedyRouting {
         List<Integer> nodeRoute = new ArrayList<>();
     	int actualNode = source; 				//actual considered node
         nodeRoute.add(source);
-    	double actualBestDistance = Math.sqrt(Math.pow((allNodes.get(destination).getX() - allNodes.get(source).getX()),2) + 
-    										  Math.pow((allNodes.get(destination).getY() - allNodes.get(source).getY()),2));
-    	boolean destinationFound = false;
-    	boolean stuck = false;
-    	int potentialNeighbour = 0; 				//considered column in the row of the actualNode
-    	int candidate = actualNode;					//candidate for the next hop
-    	
-    	while(!destinationFound && !stuck) {		
-            System.out.println("Routing");
-            System.out.println("Aktueller Knoten: " + actualNode);
-            boolean nextHopFound = false;
-	    	while(potentialNeighbour < numNodes || !destinationFound || !nextHopFound) {
-                System.out.println("Aktueller Nachbar: " + potentialNeighbour);
-                if(potentialNeighbour == actualNode) {
-	    			System.out.println("Betrachteter Nachbar gleich aktueller Knoten");
-	    			potentialNeighbour++;
-	    			System.out.println("Nächster betrachteter Nachbar: " +potentialNeighbour);
-	    		}
 
-	    		if (potentialNeighbour == destination) {
-	    			System.out.println("Erreiche Knoten: " +potentialNeighbour); 		
-		    		nodeRoute.add(potentialNeighbour);
-	    			System.out.println("Ziel erreicht");
-	    			destinationFound = true;	    			
-	    			return nodeRoute;
-	    		}
-	    		if (adjacencyMatrixRoute.get(actualNode, potentialNeighbour)) {
-	    			double potentialBestDistance = Math.sqrt(Math.pow((allNodes.get(destination).getX() - allNodes.get(potentialNeighbour).getX()),2) + 
-							  Math.pow((allNodes.get(destination).getY() - allNodes.get(potentialNeighbour).getY()),2));
-	    			if(potentialBestDistance < actualBestDistance) {
-	    				actualBestDistance = potentialBestDistance;
-	    				candidate = potentialNeighbour;
-	    				System.out.println("Kandidat:" +candidate);
-	    				potentialNeighbour++;
-	    			}
-	    			else {
-	    				potentialNeighbour++;
-	    				System.out.println("Next Hop");
-	    				if (potentialNeighbour == numNodes -1) {
-	    	    			nextHopFound = true;
-	    				}
-	    			}
-	    		} 
-	    		else {
-	    			potentialNeighbour++;
-	    		}
-	    		if (potentialNeighbour == numNodes-1) {
-                    nodeRoute.add(candidate);
-	    			nextHopFound = true;
-	    		}
-
-	    	if (actualNode == candidate) {
-	    		System.out.println("Lokales Minimum erreicht");
-	    		stuck = true;
-	    	}
-	    	else {
-            	actualNode = candidate;
-	    		System.out.println("Nächster Knoten: "+ actualNode); 		
-
+    	boolean stop = false;
+    	int nextHop = 0;					//candidate for the next hop
+        while(!stop) {
+            nextHop=getBestDistanceToTarget(actualNode);
+            System.out.println("next hop: " + nextHop);
+            if (actualNode == nextHop || nextHop == -1) {
+                System.out.println("Reached local Minimum, Routing failed");
+                stop = true;
+                nodeRoute.clear(); //routing failed
             }
-            }//innere while
-    	}//äußere while
-    	
-
-        
-        //end Routing
+            else {
+                    if (!nodeRoute.contains(nextHop)) { //check if we've been there
+                        actualNode = nextHop;
+                        nodeRoute.add(actualNode);
+                        System.out.println("Routed to next Node: " + actualNode);
+                    } adjacencyMatrixRoute.put(actualNode, nextHop,false); //avoid turning in circles
+            }
+            if (actualNode == destination) stop=true;
+        }
+        System.out.println("Routing done");
         return nodeRoute;
     }
+
+    private int getBestDistanceToTarget(int actualNode) {
+        int potentialNeighbour = 0;
+        double actualBestDistance = calcDistance(destination, actualNode);
+        double potentialBestDistance = 9999999;
+        int candidate=-1;
+
+        while (potentialNeighbour < numNodes - 1) {
+            if (potentialNeighbour!=actualNode) {
+                if (adjacencyMatrixRoute.get(actualNode, potentialNeighbour)) {
+                    potentialBestDistance = calcDistance(destination, potentialNeighbour);
+                }
+                if (potentialBestDistance < actualBestDistance) {
+                    actualBestDistance = potentialBestDistance;
+                    candidate = potentialNeighbour;
+                    System.out.println("Bester Kandidat:" + candidate);
+                    potentialNeighbour++;
+                } else { System.out.println("Distance larger, PBD:" + potentialBestDistance + " ABD: " + actualBestDistance); potentialNeighbour ++; }
+            } else potentialNeighbour++;
+
+        }
+        return candidate;
+    }
+
+    private double calcDistance(int src, int trgt) {
+        return Math.sqrt(Math.pow((allNodes.get(trgt).getX() - allNodes.get(src).getX()),2) +
+                                              Math.pow((allNodes.get(trgt).getY() - allNodes.get(src).getY()),2));
+    }
+
 }
