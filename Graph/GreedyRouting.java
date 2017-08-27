@@ -67,7 +67,13 @@ public class GreedyRouting {
                     candidate = potentialNeighbour;
                     System.out.println("Bester Kandidat:" + candidate);
                     potentialNeighbour++;
-                } else { System.out.println("Distance larger, PBD:" + potentialBestDistance + " ABD: " + actualBestDistance); potentialNeighbour ++; }
+                } else {
+                    System.out.println("Distance larger, PBD:" + potentialBestDistance + " ABD: " + actualBestDistance);
+                    potentialNeighbour ++;
+                    if (potentialNeighbour == numNodes -1) {
+                     if (potentialBestDistance!=9999999) candidate = potentialNeighbour;
+                    }
+                }
             } else potentialNeighbour++;
 
         }
