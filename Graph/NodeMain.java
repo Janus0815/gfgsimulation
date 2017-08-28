@@ -21,8 +21,8 @@ public class NodeMain {
 		int numNodes = 7;				//number of nodes			Test:8
 		long seedx = 112;				//seed for x-coordinate		Test: 1
 		long seedy = 412;				//seed for y-coordinate		Test: 420
-		int sourceNode = 0;				//Routing: source
-		int destinationNode = 3;		//Routing: destination
+		int sourceNode = 3;				//Routing: source
+		int destinationNode = 1;		//Routing: destination
 		
 		//method for creating randomly distributed nodes
 		createNodes(numNodes, yMax, xMax, seedx, seedy);
@@ -108,7 +108,7 @@ public class NodeMain {
 		//compare a Node to every other Node and determine, if there is a connection
 		for (int mainNode=0; mainNode < allNodes.size(); mainNode++ ) {
 			for (int subNode=mainNode+1; subNode < allNodes.size(); subNode++) {
- 				System.out.println("Main: " + mainNode + " Sub: " + subNode );
+ 				//System.out.println("Main: " + mainNode + " Sub: " + subNode );
  				
 				//generating the adjacency matrix
 				if(isConnected(allNodes.get(mainNode), allNodes.get(subNode))) {
@@ -180,16 +180,16 @@ public class NodeMain {
 			while (firstEdgeColumn < numNodes && !removedEdge) {
 				// wenn Kante gefunden, dann greife Werte der Endpunkte ab
 				if (adjacencyMatrix.get(firstEdgeRow, firstEdgeColumn)) {
-					System.out.println("1. Kante: " +(firstEdgeRow)+ ", "+ (firstEdgeColumn));
+					//System.out.println("1. Kante: " +(firstEdgeRow)+ ", "+ (firstEdgeColumn));
 					//Vergleichskante finden
 					secondEdgeRow = firstEdgeRow;
 					while (secondEdgeRow < numNodes) {
 					    secondEdgeColumn = 0;
 						while (secondEdgeColumn < numNodes && !removedEdge) {
 							if(firstEdgeRow!=secondEdgeRow || firstEdgeColumn!=secondEdgeColumn) {
-							System.out.println(secondEdgeRow + "," +  secondEdgeColumn);
+							//System.out.println(secondEdgeRow + "," +  secondEdgeColumn);
 							if (adjacencyMatrix.get(secondEdgeRow, secondEdgeColumn)) {
-								System.out.println("Vergleichskante: " +(secondEdgeRow)+ ", "+ (secondEdgeColumn));
+								//System.out.println("Vergleichskante: " +(secondEdgeRow)+ ", "+ (secondEdgeColumn));
 								if (doesIntersect(allNodes.get(firstEdgeRow), allNodes.get(firstEdgeColumn), 
 										  		  allNodes.get(secondEdgeRow), allNodes.get(secondEdgeColumn))) {
 									System.out.println("Prüfe, ob entfernbar: " + firstEdgeRow + "," + firstEdgeColumn + "-" + secondEdgeRow + "," +  secondEdgeColumn );
@@ -301,10 +301,10 @@ public class NodeMain {
 	public static boolean removeEdge (int firstEdgeEndpointA, int firstEdgeEndpointB, int secondEdgeEndpointC, int secondEdgeEndpointD) {
 		//testing whether edge AB could be removed (if A and B have both a connection to C or D)		
 		if ((((adjacencyMatrix.get(firstEdgeEndpointA, secondEdgeEndpointC)) || (adjacencyMatrix.get(firstEdgeEndpointA, secondEdgeEndpointD))) || 
-			 (adjacencyMatrix.get(secondEdgeEndpointC, firstEdgeEndpointA)) || (adjacencyMatrix.get(secondEdgeEndpointD, firstEdgeEndpointA)))
+		   	  (adjacencyMatrix.get(secondEdgeEndpointC, firstEdgeEndpointA)) || (adjacencyMatrix.get(secondEdgeEndpointD, firstEdgeEndpointA)))
 				&&
-			(((adjacencyMatrix.get(firstEdgeEndpointB, secondEdgeEndpointC)) || (adjacencyMatrix.get(firstEdgeEndpointB, secondEdgeEndpointD)))) ||
-			  (adjacencyMatrix.get(secondEdgeEndpointC, firstEdgeEndpointB)) || (adjacencyMatrix.get(secondEdgeEndpointD, firstEdgeEndpointB)))
+			(((adjacencyMatrix.get(firstEdgeEndpointB, secondEdgeEndpointC)) || (adjacencyMatrix.get(firstEdgeEndpointB, secondEdgeEndpointD))) ||
+			  (adjacencyMatrix.get(secondEdgeEndpointC, firstEdgeEndpointB)) || (adjacencyMatrix.get(secondEdgeEndpointD, firstEdgeEndpointB))))
 			{ 
 			adjacencyMatrix.put(firstEdgeEndpointA, firstEdgeEndpointB, false);
 			adjacencyMatrix.put(firstEdgeEndpointB, firstEdgeEndpointA, false);

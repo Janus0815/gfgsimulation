@@ -36,7 +36,7 @@ public class GreedyRouting {
             if (actualNode == nextHop || nextHop == -1) {
                 System.out.println("Reached local Minimum, Routing failed");
                 stop = true;
-                nodeRoute.clear(); //routing failed
+                //nodeRoute.clear(); //routing failed
             }
             else {
                     if (!nodeRoute.contains(nextHop)) { //check if we've been there
@@ -63,9 +63,9 @@ public class GreedyRouting {
             if (potentialNeighbour!=actualNode) {
                 if (adjacencyMatrixRoute.get(actualNode, potentialNeighbour)) {
                     potentialBestDistance = calcDistance(destination, potentialNeighbour);
-                    System.out.println("guckst du: " + potentialNeighbour);
+                    //System.out.println("guckst du: " + potentialNeighbour);
                     if (potentialNeighbour == destination) {
-                        System.out.println("Beim Ziel: " + potentialNeighbour);
+                        //System.out.println("Beim Ziel: " + potentialNeighbour);
                         candidate=potentialNeighbour;
                         stop = true;
                     }
@@ -73,10 +73,10 @@ public class GreedyRouting {
                 if (potentialBestDistance <= actualBestDistance && stop != true) {
                     actualBestDistance = potentialBestDistance;
                     candidate = potentialNeighbour;
-                    System.out.println("Bester Kandidat:" + candidate);
+                    //System.out.println("Bester Kandidat:" + candidate);
                     potentialNeighbour++;
                 } else {
-                    System.out.println("Distance larger, PBD:" + potentialBestDistance + " ABD: " + actualBestDistance);
+                    //System.out.println("Distance larger, PBD:" + potentialBestDistance + " ABD: " + actualBestDistance);
                     potentialNeighbour ++;
                 }
             } else potentialNeighbour++;
