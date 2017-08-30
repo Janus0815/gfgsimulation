@@ -13,13 +13,11 @@ public class NodeMain {
 
 	private static long seedb = 112;
 
-	//private static fxVisual blub = new fxVisual();
-
 	public static void main(String[] args) {
 
 		int xMax = 500;					//width of the plane
 		int yMax = 500;					//length of the plane
-		int numNodes = 100;				//number of nodes			Test:8
+		int numNodes = 10;				//number of nodes			Test:8
 		long seedy = 412;				//seed for y-coordinate		Test: 420
 		long seedx = 123;				//seed for bool
 		int sourceNode = 3;				//Routing: source
@@ -183,7 +181,6 @@ public class NodeMain {
 
 		while ( nodeIterator.hasNext()) {
 
-
 			secondEdgeRow = 0;
 			secondEdgeColumn = 0;
 			removedEdge=false;
@@ -206,8 +203,8 @@ public class NodeMain {
 								if (doesIntersect(allNodes.get(firstEdgeRow), allNodes.get(firstEdgeColumn), 
 										  		  allNodes.get(secondEdgeRow), allNodes.get(secondEdgeColumn))) {
 									//System.out.println("Prüfe, ob entfernbar: " + firstEdgeRow + "," + firstEdgeColumn + "-" + secondEdgeRow + "," +  secondEdgeColumn );
-									//if (removeEdge(firstEdgeRow, firstEdgeColumn, secondEdgeRow, secondEdgeColumn))
-									//		removedEdge = true;
+									if (removeEdge(firstEdgeRow, firstEdgeColumn, secondEdgeRow, secondEdgeColumn))
+											removedEdge = true;
 									removeEdge(firstEdgeRow, firstEdgeColumn, secondEdgeRow, secondEdgeColumn);
 																	}
 								} //if doesIntersect
@@ -229,6 +226,7 @@ public class NodeMain {
 			else {
 				//firstEdgeRow = 0;
                 nodeIterator = nodeOrder.iterator();
+				firstEdgeRow = nodeIterator.next()-1;
 				firstEdgeColumn = 0;
 				
 			}
@@ -323,33 +321,34 @@ public class NodeMain {
 		   	&&  (  (adjacencyMatrix.get(firstEdgeEndpointB, secondEdgeEndpointC)) && (adjacencyMatrix.get(firstEdgeEndpointB, secondEdgeEndpointD) ) )
 				 )
 			{
-				adjacencyMatrix.put(secondEdgeEndpointD, secondEdgeEndpointC, false);
-				adjacencyMatrix.put(secondEdgeEndpointC, secondEdgeEndpointD, false);
-
-			//System.out.println("Entfernte Kante: " + firstEdgeEndpointA + "," + firstEdgeEndpointB );
-			return true;
-		}
-		else {
-			 if (
-			 		(  (adjacencyMatrix.get(firstEdgeEndpointA, secondEdgeEndpointC)) && (adjacencyMatrix.get(firstEdgeEndpointB, secondEdgeEndpointD) ) )
-				 || (  (adjacencyMatrix.get(firstEdgeEndpointA, secondEdgeEndpointD)) && (adjacencyMatrix.get(firstEdgeEndpointB, secondEdgeEndpointC) ) )
-					 )   {
-			 	if (getRandomBoolean()) {
+				if (getRandomBoolean()) {
+					adjacencyMatrix.put(secondEdgeEndpointD, secondEdgeEndpointC, false);
+					adjacencyMatrix.put(secondEdgeEndpointC, secondEdgeEndpointD, false);
+					return true;
+				} else {
 					adjacencyMatrix.put(firstEdgeEndpointA, firstEdgeEndpointB, false);
 					adjacencyMatrix.put(firstEdgeEndpointB, firstEdgeEndpointA, false);
 					return true;
-				} else
-					adjacencyMatrix.put(secondEdgeEndpointD, secondEdgeEndpointC, false);
-				    adjacencyMatrix.put(secondEdgeEndpointC, secondEdgeEndpointD, false);
-
-				 return true;
 				}
 
+			}
 
-			 else return false;
-		 }
-
-
+			else {
+				 if (
+						(  (adjacencyMatrix.get(firstEdgeEndpointA, secondEdgeEndpointC)) && (adjacencyMatrix.get(firstEdgeEndpointB, secondEdgeEndpointD) ) )
+					 || (  (adjacencyMatrix.get(firstEdgeEndpointA, secondEdgeEndpointD)) && (adjacencyMatrix.get(firstEdgeEndpointB, secondEdgeEndpointC) ) )
+						 )   {
+						if (getRandomBoolean()) {
+							adjacencyMatrix.put(firstEdgeEndpointA, firstEdgeEndpointB, false);
+							adjacencyMatrix.put(firstEdgeEndpointB, firstEdgeEndpointA, false);
+							return true;
+						} else {
+							adjacencyMatrix.put(secondEdgeEndpointD, secondEdgeEndpointC, false);
+							adjacencyMatrix.put(secondEdgeEndpointC, secondEdgeEndpointD, false);
+							return true;
+						}
+					} else return false;
+		 		}
 	}
 	
 	public static void showTextResult(int numNodes) {
