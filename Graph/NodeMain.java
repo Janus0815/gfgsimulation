@@ -18,9 +18,9 @@ public class NodeMain {
 
 		int xMax = 500;					//width of the plane
 		int yMax = 500;					//length of the plane
-		int numNodes = 50;				//number of nodes			Test:8
-		long seedx = 21;				//seed for x-coordinate		Test: 1
-		long seedy = 42;				//seed for y-coordinate		Test: 420
+		int numNodes = 50;				//number of nodes			
+		long seedx = 21;				//seed for x-coordinate		
+		long seedy = 42;				//seed for y-coordinate		
 		int sourceNode = 3;				//Routing: source
 		int destinationNode = 1;		//Routing: destination
 		
