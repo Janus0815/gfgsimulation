@@ -1,9 +1,8 @@
 package Graph;
 
 import java.awt.image.BufferedImage;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
+
 
 public class NodeMain {
 	//list allNodes for the generated nodes
@@ -12,6 +11,8 @@ public class NodeMain {
 	//Adjacency matrix to store connections
 	private static Matrix adjacencyMatrix = new Matrix();
 
+	private static long seedb = 112;
+
 	//private static fxVisual blub = new fxVisual();
 
 	public static void main(String[] args) {
@@ -19,8 +20,8 @@ public class NodeMain {
 		int xMax = 500;					//width of the plane
 		int yMax = 500;					//length of the plane
 		int numNodes = 100;				//number of nodes			Test:8
-		long seedx = 112;				//seed for x-coordinate		Test: 1
 		long seedy = 412;				//seed for y-coordinate		Test: 420
+		long seedx = 123;				//seed for bool
 		int sourceNode = 3;				//Routing: source
 		int destinationNode = 1;		//Routing: destination
 		
@@ -39,6 +40,7 @@ public class NodeMain {
 	    edgevis.displayImage(edgeImage);
 
 	    //method for creating the partially planar subgraph
+
 		doPlanarization(numNodes);
 		System.out.println("Teilplanarisiert:");
 		showTextResult(numNodes);
@@ -128,6 +130,7 @@ public class NodeMain {
 		for (int x = 0; x <= numNodes; x++) {
 			adjacencyMatrix.put(x, x, false); 			//no connection from Node x to Node x
 			}
+		mirrorEdges(numNodes);
 
 
 	}
@@ -172,11 +175,16 @@ public class NodeMain {
 		int firstEdgeColumn = 0;
 		int secondEdgeRow = 0;
 		int secondEdgeColumn = 0;
-		while (firstEdgeRow < numNodes) { 
+		Set<Integer> nodeOrder = new HashSet<Integer>();
+		nodeOrder = randomOrder(numNodes);
+		Iterator<Integer> nodeIterator = nodeOrder.iterator();
+		while ( nodeIterator.hasNext()) {
+			firstEdgeRow = nodeIterator.next()-1;
+			System.out.println("Looking at Main Node: " + firstEdgeRow);
 			secondEdgeRow = 0;
 			secondEdgeColumn = 0;
 			removedEdge=false;
-			firstEdgeColumn = 0;
+			firstEdgeColumn = firstEdgeRow+1;
 			while (firstEdgeColumn < numNodes && !removedEdge) {
 				// wenn Kante gefunden, dann greife Werte der Endpunkte ab
 				if (adjacencyMatrix.get(firstEdgeRow, firstEdgeColumn)) {
@@ -184,7 +192,7 @@ public class NodeMain {
 					//Vergleichskante finden
 					secondEdgeRow = firstEdgeRow;
 					while (secondEdgeRow < numNodes) {
-					    secondEdgeColumn = 0;
+					    secondEdgeColumn = secondEdgeRow+1;
 						while (secondEdgeColumn < numNodes) {
 							if(firstEdgeRow!=secondEdgeRow || firstEdgeColumn!=secondEdgeColumn) {
 							//System.out.println(secondEdgeRow + "," +  secondEdgeColumn);
@@ -218,17 +226,7 @@ public class NodeMain {
 				
 			}
 		}	//Ende while-Schleife firstEdgeRow		
-		//Matrix spiegeln, um alle Verbindungen zu erhalten
-		for (int mirrorRow = 0; mirrorRow < numNodes; mirrorRow++) {
-			for (int mirrorColumn = 0; mirrorColumn < numNodes; mirrorColumn++) {
-				if (adjacencyMatrix.get(mirrorRow, mirrorColumn)) 
-					adjacencyMatrix.put(mirrorColumn, mirrorRow, true);
-				else 
-					adjacencyMatrix.put(mirrorColumn, mirrorRow, false);
-			}
-				
-		}
-		
+
 		
 	}	//Ende Methode doPlanarization
 	
@@ -301,7 +299,7 @@ public class NodeMain {
 	//remove not needed connections from connection matrix
 	public static boolean removeEdge (int firstEdgeEndpointA, int firstEdgeEndpointB, int secondEdgeEndpointC, int secondEdgeEndpointD) {
 		//testing whether edge AB could be removed (if A and B have both a connection to C or D)		
-		if ((((adjacencyMatrix.get(firstEdgeEndpointA, secondEdgeEndpointC)) || (adjacencyMatrix.get(firstEdgeEndpointA, secondEdgeEndpointD))) || 
+		/* if ((((adjacencyMatrix.get(firstEdgeEndpointA, secondEdgeEndpointC)) || (adjacencyMatrix.get(firstEdgeEndpointA, secondEdgeEndpointD))) ||
 		   	  (adjacencyMatrix.get(secondEdgeEndpointC, firstEdgeEndpointA)) || (adjacencyMatrix.get(secondEdgeEndpointD, firstEdgeEndpointA)))
 				&&
 			(((adjacencyMatrix.get(firstEdgeEndpointB, secondEdgeEndpointC)) || (adjacencyMatrix.get(firstEdgeEndpointB, secondEdgeEndpointD))) ||
@@ -312,8 +310,39 @@ public class NodeMain {
 			//System.out.println("Entfernte Kante: " + firstEdgeEndpointA + "," + firstEdgeEndpointB );
 			return true;
 		}
-		else return false;
-			
+		*/
+		 if (
+		 		(  (adjacencyMatrix.get(firstEdgeEndpointA, secondEdgeEndpointC)) && (adjacencyMatrix.get(firstEdgeEndpointA, secondEdgeEndpointD) ) )
+		   	&&  (  (adjacencyMatrix.get(firstEdgeEndpointB, secondEdgeEndpointC)) && (adjacencyMatrix.get(firstEdgeEndpointB, secondEdgeEndpointD) ) )
+				 )
+			{
+				adjacencyMatrix.put(secondEdgeEndpointD, secondEdgeEndpointC, false);
+				adjacencyMatrix.put(secondEdgeEndpointC, secondEdgeEndpointD, false);
+
+			//System.out.println("Entfernte Kante: " + firstEdgeEndpointA + "," + firstEdgeEndpointB );
+			return true;
+		}
+		else {
+			 if (
+			 		(  (adjacencyMatrix.get(firstEdgeEndpointA, secondEdgeEndpointC)) && (adjacencyMatrix.get(firstEdgeEndpointB, secondEdgeEndpointD) ) )
+				 || (  (adjacencyMatrix.get(firstEdgeEndpointA, secondEdgeEndpointD)) && (adjacencyMatrix.get(firstEdgeEndpointB, secondEdgeEndpointC) ) )
+					 )   {
+			 	if (getRandomBoolean()) {
+					adjacencyMatrix.put(firstEdgeEndpointA, firstEdgeEndpointB, false);
+					adjacencyMatrix.put(firstEdgeEndpointB, firstEdgeEndpointA, false);
+					return true;
+				} else
+					adjacencyMatrix.put(secondEdgeEndpointD, secondEdgeEndpointC, false);
+				    adjacencyMatrix.put(secondEdgeEndpointC, secondEdgeEndpointD, false);
+
+				 return true;
+				}
+
+
+			 else return false;
+		 }
+
+
 	}
 	
 	public static void showTextResult(int numNodes) {
@@ -332,5 +361,40 @@ public class NodeMain {
 			System.out.println("");
 		} 
 	}
+
+	private static void mirrorEdges(int numNodes) {
+		//Matrix spiegeln, um alle Verbindungen zu erhalten
+		for (int mirrorRow = 0; mirrorRow < numNodes; mirrorRow++) {
+			for (int mirrorColumn = 0; mirrorColumn < numNodes; mirrorColumn++) {
+				if (adjacencyMatrix.get(mirrorRow, mirrorColumn))
+					adjacencyMatrix.put(mirrorColumn, mirrorRow, true);
+				else
+					adjacencyMatrix.put(mirrorColumn, mirrorRow, false);
+			}
+
+		}
+	}
+
+	private static boolean getRandomBoolean() {
+		Random generator = new Random(seedb);
+		double random = generator.nextDouble();
+		//System.out.println("Random Bool: " + random);
+		return random < 0.5;
+	}
+
+	private static Set<Integer> randomOrder(int numNodes) {
+		Random rng = new Random(); // Ideally just create one instance globally
+// Note: use LinkedHashSet to maintain insertion order
+		Set<Integer> generated = new LinkedHashSet<Integer>();
+		while (generated.size() < numNodes)
+		{
+			Integer next = rng.nextInt(numNodes) + 1;
+			// As we're adding to a set, this will automatically do a containment check
+			generated.add(next);
+		}
+		return generated;
+	}
+
+
 
 }
