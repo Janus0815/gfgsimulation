@@ -175,24 +175,29 @@ public class NodeMain {
 		int firstEdgeColumn = 0;
 		int secondEdgeRow = 0;
 		int secondEdgeColumn = 0;
+
 		Set<Integer> nodeOrder = new HashSet<Integer>();
 		nodeOrder = randomOrder(numNodes);
 		Iterator<Integer> nodeIterator = nodeOrder.iterator();
+        firstEdgeRow = nodeIterator.next()-1;
+
 		while ( nodeIterator.hasNext()) {
-			firstEdgeRow = nodeIterator.next()-1;
-			System.out.println("Looking at Main Node: " + firstEdgeRow);
+
+
 			secondEdgeRow = 0;
 			secondEdgeColumn = 0;
 			removedEdge=false;
-			firstEdgeColumn = firstEdgeRow+1;
+			//firstEdgeColumn = firstEdgeRow;
+            firstEdgeColumn=0;
 			while (firstEdgeColumn < numNodes && !removedEdge) {
+                System.out.println("Looking at Main Node: " + firstEdgeRow + " " + firstEdgeColumn);
 				// wenn Kante gefunden, dann greife Werte der Endpunkte ab
 				if (adjacencyMatrix.get(firstEdgeRow, firstEdgeColumn)) {
 					//System.out.println("1. Kante: " +(firstEdgeRow)+ ", "+ (firstEdgeColumn));
 					//Vergleichskante finden
 					secondEdgeRow = firstEdgeRow;
 					while (secondEdgeRow < numNodes) {
-					    secondEdgeColumn = secondEdgeRow+1;
+					    secondEdgeColumn = secondEdgeRow;
 						while (secondEdgeColumn < numNodes) {
 							if(firstEdgeRow!=secondEdgeRow || firstEdgeColumn!=secondEdgeColumn) {
 							//System.out.println(secondEdgeRow + "," +  secondEdgeColumn);
@@ -218,10 +223,12 @@ public class NodeMain {
 			firstEdgeColumn++;
 			}	//Ende while-Schleife firstEdgeColumn	
 			if (!removedEdge) {
-				firstEdgeRow++;
+				//firstEdgeRow++;
+                firstEdgeRow = nodeIterator.next()-1;
 			}
 			else {
-				firstEdgeRow = 0;
+				//firstEdgeRow = 0;
+                nodeIterator = nodeOrder.iterator();
 				firstEdgeColumn = 0;
 				
 			}
