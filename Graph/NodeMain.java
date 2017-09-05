@@ -16,8 +16,8 @@ public class NodeMain {
 
 	public static void main(String[] args) {
 
-		int xMax = 500;					//width of the plane
-		int yMax = 500;					//length of the plane
+		int xMax = 1500;					//width of the plane
+		int yMax = 1500;					//length of the plane
 		int numNodes = 50;				//number of nodes			
 		long seedx = 21;				//seed for x-coordinate		
 		long seedy = 42;				//seed for y-coordinate		
