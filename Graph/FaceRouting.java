@@ -2,6 +2,7 @@ package Graph;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.HashSet;
 
 public class FaceRouting {
 
@@ -22,6 +23,7 @@ public class FaceRouting {
 
     public List<Integer> doFaceRouting() {
         List<Integer> nodeRoute = new ArrayList<>();
+        HashSet<pair> set=new HashSet<pair>();
         nodeRoute.add(source);	
 	    int stStart = source;
 	    int stStartX = allNodes.get(stStart).getX();
@@ -31,6 +33,7 @@ public class FaceRouting {
         boolean destinationFound = false;
         boolean routingFailed = false;
         boolean faceChange = false;
+        
         while(!destinationFound && !routingFailed) {
 	        int actualNode = source; 				//actual considered node
 	        
@@ -48,6 +51,7 @@ public class FaceRouting {
 	       
 	       nodeRoute.add(nextHop);
 	       
+	       
 	       if (nextHop == destination) {
 	    	   System.out.println("Routing done");
 	           return nodeRoute;
@@ -62,12 +66,18 @@ public class FaceRouting {
 	    	   
 	    	   nodeRoute.add(nextHop);
 	    	   
-	    	   //ToDo: prüfe, ob schonmal durchlaufen
-	    	   if (noch nicht durchlaufen) {
-	    		   
-		        	//prüfe, ob Schnitt mit st-Linie
-		        	if (doesIntersect(allNodes.get(actualNode), allNodes.get(nextHop), 
-							  		  allNodes.get(stStart), allNodes.get(stDestination))) {
+	    	   pair temp=new pair(actualNode, nextHop);
+	    	   if (set.contains(temp)) {
+	    		   routingFailed = true;
+	    		   System.out.println("Face-Routing failed");
+	    		   return nodeRoute;
+	    	   }
+	    	   else {
+	    		   set.add(temp);
+	    	   	    		   
+	    		   //prüfe, ob Schnitt mit st-Linie
+	    		   if (doesIntersect(allNodes.get(actualNode), allNodes.get(nextHop), 
+							  		 allNodes.get(stStart), allNodes.get(stDestination))) {
 		        		
 		        		//Schnittpunkt berechnen
 		        		Node resultNode = new Node();
@@ -76,27 +86,17 @@ public class FaceRouting {
 		        		stStartX = resultNode.getX();
 		        	    stStartY = resultNode.getY();
 		        	}// end if doesIntersect
-		        } // end if noch nicht durchlaufen
+		        } // end else
+		        	    	   
+		       
+   
+	       }  //else (nextHop != destination)
 		        
-	    	   
-	    	   
-		        return nodeRoute;
-	    	   
-	    	   
-	    	   
-	       }  //else
-	       
-	       
-	       
 	        
-	        
-	        
-	        //Methode, um ausgehende Kante zu finden, die zur zuletzt durchlaufenen Kante den kleinsten Winkel hat
-	        //Rückgabe: Kante x->potentialNextHop
-	        //prüfe, erneuter Durchlauf von sx
-	       
     }//while 
+		return nodeRoute;
     } //doFacerouting
+    
     public static Node computeIntersection(Node actual, Node next, Node startLine, Node destinationLine) {
     	double m1;
     	double m2;

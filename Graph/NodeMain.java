@@ -20,13 +20,13 @@ public class NodeMain {
 	public static void main(String[] args) {
 		//to activate cli remove this
 		/* */
-		int xMax = 1500;					//width of the plane
-		int yMax = 1500;					//length of the plane
-		int numNodes = 50;				//number of nodes
-		long seedx = 21;				//seed for x-coordinate
+		int xMax = 500;					//width of the plane
+		int yMax = 500;					//length of the plane
+		int numNodes = 10;				//number of nodes
+		long seedx = 211;				//seed for x-coordinate
 		long seedy = 42;				//seed for y-coordinate
 		int sourceNode = 3;				//Routing: source
-		int destinationNode = 1;		//Routing: destination
+		int destinationNode = 7;		//Routing: destination
 
 		//to activate cli enable this
 		/*
@@ -45,14 +45,14 @@ public class NodeMain {
 		*/
 
 		//Sample Code for Hashset of integer value pair
-		HashSet<pair> set=new HashSet<pair>();
+		/*HashSet<pair> set=new HashSet<pair>();
 		pair temp=new pair(3,5);
 		set.add(temp);
 		pair temp1=new pair(3,5);
 		set.add(temp1);
 		for(pair p:set){
 			System.out.println(p.a+"  "+p.b);
-		}
+		}*/
 
 		//method for creating randomly distributed nodes
 		createNodes(numNodes, yMax, xMax, seedx, seedy);
@@ -92,6 +92,12 @@ public class NodeMain {
 		BufferedImage routeImage = routevis.createImageWithRoute();
 		edgevis.displayImage(routeImage);
 		saveImage("route.png", routeImage);
+		
+		//Face Routing
+		FaceRouting face = new FaceRouting();
+		face.setParams(allNodes, adjacencyMatrix, sourceNode, destinationNode, numNodes);
+		List<Integer> faceRoute = face.doFaceRouting();
+		for (int i = 0 ; i < faceRoute.size() ; i++) System.out.println("Route: " + faceRoute.get(i));
 	}
 	
 	
