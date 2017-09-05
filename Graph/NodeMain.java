@@ -4,6 +4,8 @@ import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import java.io.*;
+import javax.imageio.*;
 
 public class NodeMain {
 	//list allNodes for the generated nodes
@@ -16,8 +18,9 @@ public class NodeMain {
 
 	public static void main(String[] args) {
 		//to activate cli remove this
-		int xMax = 500;					//width of the plane
-		int yMax = 500;					//length of the plane
+		/* */
+		int xMax = 1500;					//width of the plane
+		int yMax = 1500;					//length of the plane
 		int numNodes = 50;				//number of nodes
 		long seedx = 21;				//seed for x-coordinate
 		long seedy = 42;				//seed for y-coordinate
@@ -27,6 +30,7 @@ public class NodeMain {
 		//to activate cli enable this
 		/*
 		cli clioptions = new cli();
+		clioptions.init();
 		clioptions.setArgs(args);
 		clioptions.parse();
 
@@ -53,6 +57,7 @@ public class NodeMain {
 	    BufferedImage edgeImage = edgevis.createImageOfNetwork();
 	    //consider saving the image here?
 	    edgevis.displayImage(edgeImage);
+		saveImage("edge.png", edgeImage);
 
 	    //method for creating the partially planar subgraph
 		doPlanarization(numNodes);
@@ -63,6 +68,7 @@ public class NodeMain {
 		BufferedImage planImage = edgevis.createImageOfNetwork();
 		//consider saving the image here?
 		edgevis.displayImage(planImage);
+		saveImage("planar.png", planImage);
 
 		//Greedy Routing
 		GreedyRouting greedy = new GreedyRouting();
@@ -75,6 +81,7 @@ public class NodeMain {
 		routevis.setRoute(greedyRoute);
 		BufferedImage routeImage = routevis.createImageWithRoute();
 		edgevis.displayImage(routeImage);
+		saveImage("route.png", routeImage);
 	}
 	
 	
@@ -335,6 +342,17 @@ public class NodeMain {
 			}
 			System.out.println("");
 		} 
+	}
+
+	public static void saveImage(String fileName, BufferedImage buf) {
+
+		try {
+			BufferedImage bi = buf;
+			File outputfile = new File(fileName);
+			ImageIO.write(bi, "png", outputfile);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 }
