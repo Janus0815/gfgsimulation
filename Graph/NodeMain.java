@@ -15,14 +15,30 @@ public class NodeMain {
 	//private static fxVisual blub = new fxVisual();
 
 	public static void main(String[] args) {
-
-		int xMax = 1500;					//width of the plane
-		int yMax = 1500;					//length of the plane
-		int numNodes = 50;				//number of nodes			
-		long seedx = 21;				//seed for x-coordinate		
-		long seedy = 42;				//seed for y-coordinate		
+		//to activate cli remove this
+		int xMax = 500;					//width of the plane
+		int yMax = 500;					//length of the plane
+		int numNodes = 50;				//number of nodes
+		long seedx = 21;				//seed for x-coordinate
+		long seedy = 42;				//seed for y-coordinate
 		int sourceNode = 3;				//Routing: source
 		int destinationNode = 1;		//Routing: destination
+
+		//to activate cli enable this
+		/*
+		cli clioptions = new cli();
+		clioptions.setArgs(args);
+		clioptions.parse();
+
+		int xMax = clioptions.getxMax();					//width of the plane
+		int yMax = clioptions.getyMax();					//length of the plane
+		int numNodes = clioptions.getnumNodes();				//number of nodes
+		long seedx = clioptions.getseedx();				//seed for x-coordinate
+		long seedy = clioptions.getseedy();				//seed for y-coordinate
+		int sourceNode = clioptions.getsourceNode();				//Routing: source
+		int destinationNode = clioptions.getdestinationNode();		//Routing: destination
+		*/
+
 		
 		//method for creating randomly distributed nodes
 		createNodes(numNodes, yMax, xMax, seedx, seedy);
