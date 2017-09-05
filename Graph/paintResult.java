@@ -31,14 +31,14 @@ public class paintResult extends JFrame {
 	}
 
 	public BufferedImage createImageOfNetwork() {
-		BufferedImage img = new BufferedImage(xMax + 10, yMax + 10, BufferedImage.TYPE_INT_ARGB);
+		BufferedImage img = new BufferedImage(xMax + 50, yMax + 50, BufferedImage.TYPE_INT_ARGB);
 		paintNetWork(img);
 		return img;
 
 	}
 
 	public BufferedImage createImageWithRoute() {
-		BufferedImage img = new BufferedImage(xMax + 10, yMax + 10, BufferedImage.TYPE_INT_ARGB);
+		BufferedImage img = new BufferedImage(xMax + 50, yMax + 50, BufferedImage.TYPE_INT_ARGB);
 		paintNetWork(img);
 		paintRoute(img);
 		return img;
