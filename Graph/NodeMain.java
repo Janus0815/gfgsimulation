@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Random;
 import java.io.*;
 import javax.imageio.*;
+import java.util.HashSet;
 
 public class NodeMain {
 	//list allNodes for the generated nodes
@@ -43,7 +44,16 @@ public class NodeMain {
 		int destinationNode = clioptions.getdestinationNode();		//Routing: destination
 		*/
 
-		
+		//Sample Code for Hashset of integer value pair
+		HashSet<pair> set=new HashSet<pair>();
+		pair temp=new pair(3,5);
+		set.add(temp);
+		pair temp1=new pair(3,5);
+		set.add(temp1);
+		for(pair p:set){
+			System.out.println(p.a+"  "+p.b);
+		}
+
 		//method for creating randomly distributed nodes
 		createNodes(numNodes, yMax, xMax, seedx, seedy);
 		
