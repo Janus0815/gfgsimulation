@@ -17,6 +17,8 @@ public class paintResult extends JFrame {
 	private static ArrayList<Node> allNodes = new ArrayList<Node>();
 	private static Matrix adjacencyMatrixDraw = new Matrix();
     private static List<Integer> routeList;
+    private static int extendSize = 50;
+    private static int shiftPixels = 20;
 
 	public void setGraphParams(ArrayList<Node> nodes, Matrix matrix, int x, int y, int numberNodes) {
 		this.xMax = x;
@@ -31,14 +33,14 @@ public class paintResult extends JFrame {
 	}
 
 	public BufferedImage createImageOfNetwork() {
-		BufferedImage img = new BufferedImage(xMax + 50, yMax + 50, BufferedImage.TYPE_INT_ARGB);
+		BufferedImage img = new BufferedImage(xMax + extendSize, yMax + extendSize, BufferedImage.TYPE_INT_ARGB);
 		paintNetWork(img);
 		return img;
 
 	}
 
 	public BufferedImage createImageWithRoute() {
-		BufferedImage img = new BufferedImage(xMax + 50, yMax + 50, BufferedImage.TYPE_INT_ARGB);
+		BufferedImage img = new BufferedImage(xMax + extendSize, yMax + extendSize, BufferedImage.TYPE_INT_ARGB);
 		paintNetWork(img);
 		paintRoute(img);
 		return img;
@@ -62,9 +64,9 @@ public class paintResult extends JFrame {
 		//Knoten
 		g.setColor(Color.red);
 		for (int x = 0; x < allNodes.size(); x++) {
-			g.drawOval(allNodes.get(x).getX() - 3 + 10, (yMax - allNodes.get(x).getY() - 3), 6, 6);
-			g.fillOval(allNodes.get(x).getX() - 3 + 10, (yMax - allNodes.get(x).getY() - 3), 6, 6);
-			g.drawString(String.valueOf(x), allNodes.get(x).getX() + 12, (yMax - allNodes.get(x).getY() - 6));
+			g.drawOval(allNodes.get(x).getX() - 3 + shiftPixels, (yMax - allNodes.get(x).getY() - 3), 6, 6);
+			g.fillOval(allNodes.get(x).getX() - 3 + shiftPixels, (yMax - allNodes.get(x).getY() - 3), 6, 6);
+			g.drawString(String.valueOf(x), allNodes.get(x).getX() + shiftPixels + 2 , (yMax - allNodes.get(x).getY() - 6));
 		}
 
 		//Kanten
@@ -72,8 +74,8 @@ public class paintResult extends JFrame {
 		for (int row = 0; row < numNodes; row++) {
 			for (int column = row + 1; column < numNodes; column++) {
 				if (adjacencyMatrixDraw.get(row, column)) {
-					g.drawLine(allNodes.get(row).getX() + 10, (yMax - allNodes.get(row).getY()),
-							allNodes.get(column).getX() + 10, (yMax - allNodes.get(column).getY()));
+					g.drawLine(allNodes.get(row).getX() + shiftPixels, (yMax - allNodes.get(row).getY()),
+							allNodes.get(column).getX() + shiftPixels, (yMax - allNodes.get(column).getY()));
 				}
 			}
 		}
@@ -94,8 +96,8 @@ public class paintResult extends JFrame {
 			Node fromNode = allNodes.get(routeList.get(pos));
 			Node toNode = allNodes.get(routeList.get(pos +1));
 			System.out.println("Position: " + pos + " Draw from: " + routeList.get(pos) + " to: " + routeList.get(pos + 1));
-			drawArrow(g,fromNode.getX() + 10, (yMax - fromNode.getY()),
-					  toNode.getX() + 10, (yMax - toNode.getY()));
+			drawArrow(g,fromNode.getX() + shiftPixels, (yMax - fromNode.getY()),
+					  toNode.getX() + shiftPixels, (yMax - toNode.getY()));
 		}
 
 
