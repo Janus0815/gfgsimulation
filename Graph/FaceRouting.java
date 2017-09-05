@@ -22,7 +22,12 @@ public class FaceRouting {
 
     public List<Integer> doFaceRouting() {
         List<Integer> nodeRoute = new ArrayList<>();
-        nodeRoute.add(source);		
+        nodeRoute.add(source);	
+	    int stStart = source;
+	    int stStartX = allNodes.get(stStart).getX();
+	    int stStartY = allNodes.get(stStart).getY();
+	    int stDestination = destination;
+	    int lastNode = source;
         boolean destinationFound = false;
         boolean routingFailed = false;
         boolean faceChange = false;
@@ -30,16 +35,14 @@ public class FaceRouting {
 	        int actualNode = source; 				//actual considered node
 	        
 	        
-	        // Werte für Source-Destination Linie
-	       int stStart = source;
-	       int stDestination = destination;
-	       int lastNode = source;
+	       
+
+	       
 	       
 	       // finde nächste Kante zur st-Linie
 	       int nextHop;
 	       
-	       double stAngle = angle(allNodes.get(stStart).getX(), allNodes.get(stStart).getX(), 
-	    		   				  allNodes.get(stDestination).getX(), allNodes.get(stDestination).getY());
+	       double stAngle = angle(stStartX, stStartY, allNodes.get(stDestination).getX(), allNodes.get(stDestination).getY());
 	       
 	       nextHop = determineNextHop(stStart, stDestination, stAngle);
 	       
@@ -67,9 +70,11 @@ public class FaceRouting {
 							  		  allNodes.get(stStart), allNodes.get(stDestination))) {
 		        		
 		        		//Schnittpunkt berechnen
-		        		computeIntersection(allNodes.get(actualNode), allNodes.get(nextHop), 
-						  		  allNodes.get(stStart), allNodes.get(stDestination));
-		        		
+		        		Node resultNode = new Node();
+		        		resultNode = computeIntersection(allNodes.get(actualNode), allNodes.get(nextHop), 
+						  		                         allNodes.get(stStart), allNodes.get(stDestination));
+		        		stStartX = resultNode.getX();
+		        	    stStartY = resultNode.getY();
 		        	}// end if doesIntersect
 		        } // end if noch nicht durchlaufen
 		        
