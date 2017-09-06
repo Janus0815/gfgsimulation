@@ -28,7 +28,7 @@ public class cli {
         this.args = arg;
     }
 
-    public void cli() {
+    public void init() {
 
 
         options.addOption("h", "help", false, "show help.");
